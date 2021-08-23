@@ -5,13 +5,12 @@ import java.util.List;
 import java.util.Optional;
 
 public class Form {
-    private final String formId;
-    private final String name;
+    private String formId;
+    private String name;
     private final List<Component> components = Lists.newArrayList();
 
-    public Form(String formId, String name) {
+    private Form(String formId) {
         this.formId = formId;
-        this.name = name;
     }
 
     public void addItem(Component component) {
@@ -26,5 +25,26 @@ public class Form {
 
     public String formId() {
         return formId;
+    }
+
+    public static FormBuilder withId(String id) {
+        return new FormBuilder(new Form(id));
+    }
+
+    public static class FormBuilder {
+        private final Form form;
+
+        public FormBuilder(Form form) {
+            this.form = form;
+        }
+
+        public FormBuilder withName(String name) {
+            this.form.name = name;
+            return this;
+        }
+
+        public Form build() {
+            return form;
+        }
     }
 }

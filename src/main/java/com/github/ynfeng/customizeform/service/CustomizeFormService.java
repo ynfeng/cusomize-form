@@ -20,7 +20,9 @@ public class CustomizeFormService {
     }
 
     public String create(CreateFormRequest request) {
-        Form form = new Form(idGenerator.nextId(), request.getName());
+        Form form = Form.withId(idGenerator.nextId())
+            .withName(request.getName())
+            .build();
 
         request.getItems().forEach(formItem -> {
             Component formComponent = componentFactory.create(formItem.getName(), formItem.getScreenName(), formItem.getType(), EMPTY_PARAMS);

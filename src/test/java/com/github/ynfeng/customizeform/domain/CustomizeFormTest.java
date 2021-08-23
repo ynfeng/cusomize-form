@@ -16,7 +16,7 @@ class CustomizeFormTest {
 
     @Test
     void should_build_customize_form() {
-        Form form = new Form("1", "表单");
+        Form form = Form.withId("1").withName("表单").build();
         DatasourceFactory factory = new DefaultDataSourceFactory();
 
         DepartmentSelect department = new DepartmentSelect("dept", "部门", EMPTY_PARAMS, factory);
