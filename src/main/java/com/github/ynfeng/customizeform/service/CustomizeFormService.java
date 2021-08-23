@@ -6,7 +6,9 @@ import com.github.ynfeng.customizeform.domain.business.BusinessComponentFactory;
 import com.github.ynfeng.customizeform.domain.repository.FormRepository;
 import com.google.common.collect.Maps;
 import java.util.Map;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CustomizeFormService {
     private final FormRepository formRepository;
     private final IDGenerator idGenerator;

@@ -1,5 +1,6 @@
 package com.github.ynfeng.customizeform.publish.http;
 
+import static org.hamcrest.Matchers.startsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -43,7 +44,6 @@ class FormControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
             .andDo(print())
             .andExpect(status().is(201))
-            .andExpect(header().string("Location", "http://localhost/v1/forms/1"));
+            .andExpect(header().string("Location", startsWith("http://localhost/v1/forms")));
     }
-
 }
