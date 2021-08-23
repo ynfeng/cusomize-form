@@ -6,14 +6,15 @@ import com.github.ynfeng.customizeform.customizeform.domain.datasource.Datasourc
 import com.github.ynfeng.customizeform.customizeform.domain.select.Option;
 import com.github.ynfeng.customizeform.customizeform.domain.select.SingleSelect;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class DepartmentSelect extends AbstractComponent {
     private final SingleSelect<Department> select;
 
-    public DepartmentSelect(String name, String screenName, String companyId, DatasourceFactory datasourceFactory) {
+    public DepartmentSelect(String name, String screenName, Map<String, Object> params, DatasourceFactory datasourceFactory) {
         super(name, screenName);
-        DataSource datasoure = datasourceFactory.get(companyId, this);
+        DataSource datasoure = datasourceFactory.get(this, params);
         select = new SingleSelect(name, screenName, datasoure);
     }
 

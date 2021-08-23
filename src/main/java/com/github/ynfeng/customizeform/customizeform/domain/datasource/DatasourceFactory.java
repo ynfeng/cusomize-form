@@ -1,7 +1,8 @@
 package com.github.ynfeng.customizeform.customizeform.domain.datasource;
 
 import com.github.ynfeng.customizeform.customizeform.domain.Component;
+import java.util.Map;
 
 public interface DatasourceFactory {
-    DataSource get(String companyId, Component component);
+    DataSource get(Component component, Map<String, Object> params);
 }

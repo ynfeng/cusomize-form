@@ -2,10 +2,11 @@ package com.github.ynfeng.customizeform.customizeform.domain.datasource;
 
 import com.github.ynfeng.customizeform.customizeform.domain.Component;
 import com.github.ynfeng.customizeform.customizeform.domain.business.Department;
+import java.util.Map;
 
 public class DefaultDataSourceFactory implements DatasourceFactory {
     @Override
-    public DataSource get(String companyId, Component component) {
+    public DataSource get(Component component, Map<String, Object> params) {
         return new DataSource() {
             @Override
             public Datas getDatas() {

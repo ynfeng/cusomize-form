@@ -25,7 +25,6 @@ class CustomizeFormServiceTest {
     void should_create_form() {
         CreateFormRequest request = CreateFormRequest.builder()
             .name("一个审批表单")
-            .companyId("com")
             .items(Lists.newArrayList(
                 CreateFormRequest.FormItem.builder()
                     .name("dept")

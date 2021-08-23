@@ -9,7 +9,6 @@ import lombok.Getter;
 @Getter
 public class CreateFormRequest {
     private String name;
-    private String companyId;
     @Builder.Default
     private List<FormItem> items = Lists.newArrayList();
 

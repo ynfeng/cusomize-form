@@ -7,14 +7,18 @@ import com.github.ynfeng.customizeform.customizeform.domain.business.DepartmentS
 import com.github.ynfeng.customizeform.customizeform.domain.datasource.Data;
 import com.github.ynfeng.customizeform.customizeform.domain.datasource.DataSourceStub;
 import com.github.ynfeng.customizeform.customizeform.domain.datasource.DatasourceFactoryStub;
+import com.google.common.collect.Maps;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 class DepartmentSelectTest {
+    private static final Map<String, Object> EMPTY_PARAMS = Maps.newHashMap();
+
     @Test
     void should_create() {
         DatasourceFactoryStub datasourceFactory = new DatasourceFactoryStub();
-        DepartmentSelect departmentSelect = new DepartmentSelect("dept", "部门", "com", datasourceFactory);
+        DepartmentSelect departmentSelect = new DepartmentSelect("dept", "部门", EMPTY_PARAMS, datasourceFactory);
 
         assertThat(departmentSelect.name()).isEqualTo("dept");
         assertThat(departmentSelect.screenName()).isEqualTo("部门");
@@ -29,7 +33,7 @@ class DepartmentSelectTest {
         DatasourceFactoryStub datasourceFactory = new DatasourceFactoryStub();
         datasourceFactory.setDataSource(dataSourceStub);
 
-        DepartmentSelect departmentSelect = new DepartmentSelect("dept", "部门", "com", datasourceFactory);
+        DepartmentSelect departmentSelect = new DepartmentSelect("dept", "部门", EMPTY_PARAMS, datasourceFactory);
 
         List<Department> depts = departmentSelect.getDepartmentOptions();
         assertThat(depts).containsExactly(new Department("dev", "研发"), new Department("market", "市场"));

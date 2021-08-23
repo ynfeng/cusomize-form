@@ -6,17 +6,20 @@ import com.github.ynfeng.customizeform.customizeform.domain.business.Department;
 import com.github.ynfeng.customizeform.customizeform.domain.business.DepartmentSelect;
 import com.github.ynfeng.customizeform.customizeform.domain.datasource.DatasourceFactory;
 import com.github.ynfeng.customizeform.customizeform.domain.datasource.DefaultDataSourceFactory;
+import com.google.common.collect.Maps;
+import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 class CustomizeFormTest {
+    private static final Map<String, Object> EMPTY_PARAMS = Maps.newHashMap();
 
     @Test
     void should_build_customize_form() {
         Form form = new Form("1", "表单");
         DatasourceFactory factory = new DefaultDataSourceFactory();
 
-        DepartmentSelect department = new DepartmentSelect("dept", "部门", "com", factory);
+        DepartmentSelect department = new DepartmentSelect("dept", "部门", EMPTY_PARAMS, factory);
         form.addItem(department);
 
         Optional<DepartmentSelect> deptSelect = form.getItem("dept");
