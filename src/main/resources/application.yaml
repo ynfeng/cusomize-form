@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: customize-form
+server:
+  port: 9999
