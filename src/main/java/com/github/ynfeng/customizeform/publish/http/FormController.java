@@ -2,6 +2,7 @@ package com.github.ynfeng.customizeform.publish.http;
 
 import com.github.ynfeng.customizeform.service.CreateFormRequest;
 import com.github.ynfeng.customizeform.service.CustomizeFormService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,8 @@ import org.springframework.web.util.UriComponents;
 
 @RestController
 public class FormController {
+    @Value("${server.port}")
+    private String port;
 
     private final CustomizeFormService formService;
 
@@ -26,6 +29,7 @@ public class FormController {
 
         UriComponents uriComponents = MvcUriComponentsBuilder
             .fromMethodName(FormController.class, "getForm", formId)
+            .port(port)
             .buildAndExpand();
 
         return ResponseEntity.created(uriComponents.toUri()).build();

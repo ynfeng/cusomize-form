@@ -11,6 +11,7 @@ import com.github.ynfeng.customizeform.service.CreateFormRequest;
 import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -22,6 +23,9 @@ class FormControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Value("${server.port}")
+    private String port;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -44,6 +48,6 @@ class FormControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
             .andDo(print())
             .andExpect(status().is(201))
-            .andExpect(header().string("Location", startsWith("http://localhost/v1/forms")));
+            .andExpect(header().string("Location", startsWith("http://localhost:" + port + "/v1/forms")));
     }
 }
