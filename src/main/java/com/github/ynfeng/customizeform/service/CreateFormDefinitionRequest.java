@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class CreateFormRequest {
+public class CreateFormDefinitionRequest {
     private String name;
     @Builder.Default
     private List<FormItem> items = Lists.newArrayList();

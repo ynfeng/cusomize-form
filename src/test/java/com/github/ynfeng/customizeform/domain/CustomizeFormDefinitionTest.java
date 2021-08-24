@@ -11,18 +11,18 @@ import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
-class CustomizeFormTest {
+class CustomizeFormDefinitionTest {
     private static final Map<String, Object> EMPTY_PARAMS = Maps.newHashMap();
 
     @Test
     void should_build_customize_form() {
-        Form form = Form.withId("1").withName("表单").build();
+        FormDefinition formDefinition = FormDefinition.withId("1").withName("表单").build();
         DatasourceFactory factory = new DefaultDataSourceFactory();
 
-        DepartmentSelect department = new DepartmentSelect("dept", "部门", EMPTY_PARAMS, factory);
-        form.addItem(department);
+        DepartmentSelect department = new DepartmentSelect("dept", "部门", factory, EMPTY_PARAMS);
+        formDefinition.addItem(department);
 
-        Optional<DepartmentSelect> deptSelect = form.getItem("dept");
+        Optional<DepartmentSelect> deptSelect = formDefinition.getItem("dept");
         assertThat(deptSelect.isPresent()).isEqualTo(true);
 
         Department dev = deptSelect.get().getDepartmentOptions().get(0);

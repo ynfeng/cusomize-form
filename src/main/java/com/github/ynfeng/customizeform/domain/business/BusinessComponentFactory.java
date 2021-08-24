@@ -9,6 +9,6 @@ public class BusinessComponentFactory {
     private final DatasourceFactory datasourceFactory = new DefaultDataSourceFactory();
 
     public Component create(String name, String screenName, String type, Map<String, Object> params) {
-        return new DepartmentSelect(name, screenName, params, datasourceFactory);
+        return new DepartmentSelect(name, screenName, datasourceFactory, params);
     }
 }

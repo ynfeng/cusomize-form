@@ -18,7 +18,7 @@ class DepartmentSelectTest {
     @Test
     void should_create() {
         DatasourceFactoryStub datasourceFactory = new DatasourceFactoryStub();
-        DepartmentSelect departmentSelect = new DepartmentSelect("dept", "部门", EMPTY_PARAMS, datasourceFactory);
+        DepartmentSelect departmentSelect = new DepartmentSelect("dept", "部门", datasourceFactory, EMPTY_PARAMS);
 
         assertThat(departmentSelect.name()).isEqualTo("dept");
         assertThat(departmentSelect.screenName()).isEqualTo("部门");
@@ -33,7 +33,7 @@ class DepartmentSelectTest {
         DatasourceFactoryStub datasourceFactory = new DatasourceFactoryStub();
         datasourceFactory.setDataSource(dataSourceStub);
 
-        DepartmentSelect departmentSelect = new DepartmentSelect("dept", "部门", EMPTY_PARAMS, datasourceFactory);
+        DepartmentSelect departmentSelect = new DepartmentSelect("dept", "部门", datasourceFactory, EMPTY_PARAMS);
 
         List<Department> depts = departmentSelect.getDepartmentOptions();
         assertThat(depts).containsExactly(new Department("dev", "研发"), new Department("market", "市场"));
