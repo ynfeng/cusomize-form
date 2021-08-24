@@ -18,9 +18,19 @@ public class FormDefinitionItemDataExtractorFactory {
             FormDefinitionItemDataRepresent dataRepresent = new FormDefinitionItemDataRepresent();
 
             Link selfLink = linkTo(methodOn(FormDefinitionController.class)
-                .getFormDefinitionItemData(formId, item.name()))
+                .getFormDefinitionItemData(formId, formItem.name()))
                 .withSelfRel();
             dataRepresent.add(selfLink);
+
+            Link formDefLink = linkTo(methodOn(FormDefinitionController.class)
+                .getFormDefinition(formId))
+                .withRel("form-definition");
+            dataRepresent.add(formDefLink);
+
+            Link formItemsLink = linkTo(methodOn(FormDefinitionController.class)
+                .getFormDefinitionItems(formId))
+                .withRel("form-definition-items");
+            dataRepresent.add(formItemsLink);
 
             return dataRepresent;
         };
