@@ -11,6 +11,7 @@ import com.github.ynfeng.customizeform.service.CreateFormDefinitionRequest;
 import com.github.ynfeng.customizeform.service.CreteFormDefinitionService;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,18 @@ public class FormDefinitionController {
     public FormDefinitionController(CreteFormDefinitionService formService, FormDefinitionRepository fromRepository) {
         this.formService = formService;
         this.fromRepository = fromRepository;
+    }
+
+    @GetMapping("/v1/form-definitions")
+    public ResponseEntity<CollectionModel<FormDefinitionRepresent>> all() {
+        List<FormDefinitionRepresent> result = fromRepository.all()
+            .stream()
+            .map(FormDefinitionRepresent::fromDomain).collect(Collectors.toList());
+
+        Link selfLink = linkTo(methodOn(FormDefinitionController.class)
+            .all()).withSelfRel();
+
+        return ResponseEntity.ok(CollectionModel.of(result, selfLink));
     }
 
     @PostMapping("/v1/form-definitions")

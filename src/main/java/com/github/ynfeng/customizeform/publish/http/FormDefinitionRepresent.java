@@ -8,8 +8,10 @@ import com.github.ynfeng.customizeform.domain.FormDefinition;
 import lombok.Getter;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 @Getter
+@Relation(collectionRelation = "form-definitions", itemRelation = "form-definition")
 public class FormDefinitionRepresent extends RepresentationModel<FormDefinitionRepresent> {
     private String formId;
     private String name;

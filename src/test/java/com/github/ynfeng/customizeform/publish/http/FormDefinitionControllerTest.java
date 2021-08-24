@@ -166,4 +166,20 @@ class FormDefinitionControllerTest {
             .andExpect(jsonPath("$._links.self.href", is("http://localhost/v1/form-definitions/1/form-definition-items/dept/data")))
             .andExpect(jsonPath("$._links.form-definition.href", is("http://localhost/v1/form-definitions/1")));
     }
+
+    @Test
+    void should_get_all_form_definitions() throws Exception {
+        FormDefinition formDefinition = FormDefinition
+            .withId("1")
+            .withName("my form")
+            .build();
+        when(formDefinitionRepository.all()).thenReturn(Lists.newArrayList(formDefinition));
+
+        mockMvc.perform(get("/v1/form-definitions")
+                .contentType(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(jsonPath("$._links.self.href", is("http://localhost/v1/form-definitions")))
+            .andExpect(jsonPath("$._embedded.form-definitions.length()", is(1)))
+            .andExpect(status().is(200));
+    }
 }
