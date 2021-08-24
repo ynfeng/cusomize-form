@@ -24,9 +24,14 @@ public class DepartmentSelectDataExtractor implements FormDefinitionItemDataExtr
             .withSelfRel();
         result.add(selfLink);
 
-        List<Department> depts = departmentSelect.getDepartmentOptions();
+        Link formDefLink = linkTo(methodOn(FormDefinitionController.class)
+            .getFormDefinition(formId))
+            .withRel("form-definition");
+        result.add(formDefLink);
 
-        depts.forEach(department -> {
+        List<Department> departments = departmentSelect.getDepartmentOptions();
+
+        departments.forEach(department -> {
             Map<String, String> data = Maps.newHashMap();
             data.put("departmentId", department.getDeptId());
             data.put("departmentName", department.getName());
