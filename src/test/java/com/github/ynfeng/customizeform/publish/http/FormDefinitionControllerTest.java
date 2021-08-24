@@ -116,6 +116,53 @@ class FormDefinitionControllerTest {
         mockMvc.perform(get("/v1/form-definitions/1/form-definition-items")
                 .contentType(MediaType.APPLICATION_JSON))
             .andDo(print())
+            .andExpect(jsonPath("$._links.self.href", is("http://localhost/v1/form-definitions/1/form-definition-items")))
+            .andExpect(jsonPath("$._embedded.form-definition-items[0]._links.data.href", is("http://localhost/v1/form-definitions/1/form-definition-items/dept/data")))
+            .andExpect(jsonPath("$._embedded.form-definition-items[0].name", is("dept")))
+            .andExpect(jsonPath("$._embedded.form-definition-items[0].screenName", is("department")))
+            .andExpect(jsonPath("$._embedded.form-definition-items[0].type", is("DepartmentSelect")))
             .andExpect(status().is(200));
+    }
+
+    @Test
+    void should_404_when_get_not_exist_form_item_data() throws Exception {
+        mockMvc.perform(get("/v1/form-definitions/1/form-definitions-items/dept/data")
+                .contentType(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().is(404));
+    }
+
+    @Test
+    void should_404_when_get_not_exist_form_item_data_from_exist_form() throws Exception {
+        FormDefinition formDefinition = FormDefinition
+            .withId("1")
+            .withName("my form")
+            .build();
+        when(formDefinitionRepository.find("1")).thenReturn(Optional.of(formDefinition));
+
+        mockMvc.perform(get("/v1/form-definitions/1/form-definitions-items/dept/data")
+                .contentType(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().is(404));
+    }
+
+    @Test
+    void should_get_form_item_data() throws Exception {
+        FormDefinition formDefinition = FormDefinition
+            .withId("1")
+            .withName("my form")
+            .build();
+
+        DepartmentSelect depSel = new DepartmentSelect("dept", "department", datasourceFactory);
+        formDefinition.addItem(depSel);
+
+        when(formDefinitionRepository.find("1")).thenReturn(Optional.of(formDefinition));
+
+        mockMvc.perform(get("/v1/form-definitions/1/form-definition-items/dept/data")
+                .contentType(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().is(200))
+            .andExpect(jsonPath("$.data.length()", is(2)))
+            .andExpect(jsonPath("$._links.self.href", is("http://localhost/v1/form-definitions/1/form-definition-items/dept/data")));
     }
 }

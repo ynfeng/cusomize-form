@@ -33,6 +33,11 @@ public class FormDefinitionItemRepresent extends RepresentationModel<FormDefinit
                 .withSelfRel();
             formItemRepresent.add(selfLink);
 
+            Link dataLink = linkTo(methodOn(FormDefinitionController.class)
+                .getFormDefinitionItemData(formDefinition.formId(), formItem.name()))
+                .withRel("data");
+            formItemRepresent.add(dataLink);
+
             result.add(formItemRepresent);
         });
 

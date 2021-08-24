@@ -4,10 +4,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.fromMethodName;
 
+import com.github.ynfeng.customizeform.domain.Component;
+import com.github.ynfeng.customizeform.domain.FormDefinition;
 import com.github.ynfeng.customizeform.domain.repository.FormDefinitionRepository;
 import com.github.ynfeng.customizeform.service.CreateFormDefinitionRequest;
 import com.github.ynfeng.customizeform.service.CreteFormDefinitionService;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.http.ResponseEntity;
@@ -62,5 +65,26 @@ public class FormDefinitionController {
                 return ResponseEntity.ok(CollectionModel.of(result, selfLink, formLink));
             })
             .orElse(ResponseEntity.notFound().build());
+    }
+
+
+    @GetMapping("/v1/form-definitions/{formId}/form-definition-items/{itemName}/data")
+    public ResponseEntity<FormDefinitionItemDataRepresent> getFormDefinitionItemData(@PathVariable String formId,
+                                                                                     @PathVariable String itemName) {
+        Optional<FormDefinition> formCandidate = fromRepository.find(formId);
+        if (!formCandidate.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        FormDefinition formDefinition = formCandidate.get();
+        Optional<Component> formItemCandidate = formDefinition.items().stream().filter(it -> it.name().equals(itemName)).findAny();
+        if (!formItemCandidate.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Component formItem = formItemCandidate.get();
+        FormDefinitionItemDataRepresent result = FormDefinitionItemDataRepresent.fromDomain(formId, formItem);
+
+        return ResponseEntity.ok(result);
     }
 }
