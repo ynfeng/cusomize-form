@@ -4,12 +4,10 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.fromMethodName;
 
-import com.github.ynfeng.customizeform.domain.FormDefinition;
 import com.github.ynfeng.customizeform.domain.repository.FormDefinitionRepository;
 import com.github.ynfeng.customizeform.service.CreateFormDefinitionRequest;
 import com.github.ynfeng.customizeform.service.CreteFormDefinitionService;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.http.ResponseEntity;
@@ -50,22 +48,19 @@ public class FormDefinitionController {
 
     @GetMapping("/v1/form-definitions/{formId}/form-definition-items")
     public ResponseEntity<CollectionModel<FormDefinitionItemRepresent>> getFormDefinitionItems(@PathVariable String formId) {
-        Optional<FormDefinition> formCandidate = fromRepository.find(formId);
-        if (!formCandidate.isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
+        return fromRepository.find(formId)
+            .map(formDefinition -> {
+                List<FormDefinitionItemRepresent> result = FormDefinitionItemRepresent.fromDomain(formDefinition);
 
-        FormDefinition formDefinition = formCandidate.get();
+                Link selfLink = linkTo(methodOn(FormDefinitionController.class)
+                    .getFormDefinitionItems(formDefinition.formId()))
+                    .withSelfRel();
+                Link formLink = linkTo(methodOn(FormDefinitionController.class)
+                    .getFormDefinition(formDefinition.formId()))
+                    .withRel("form-definition");
 
-        List<FormDefinitionItemRepresent> result = FormDefinitionItemRepresent.fromDomain(formDefinition);
-
-        Link selfLink = linkTo(methodOn(FormDefinitionController.class)
-            .getFormDefinitionItems(formDefinition.formId()))
-            .withSelfRel();
-        Link formLink = linkTo(methodOn(FormDefinitionController.class)
-            .getFormDefinition(formDefinition.formId()))
-            .withRel("form-definition");
-
-        return ResponseEntity.ok(CollectionModel.of(result, selfLink, formLink));
+                return ResponseEntity.ok(CollectionModel.of(result, selfLink, formLink));
+            })
+            .orElse(ResponseEntity.notFound().build());
     }
 }

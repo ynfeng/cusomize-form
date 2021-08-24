@@ -27,7 +27,7 @@ public class FormDefinitionRepresent extends RepresentationModel<FormDefinitionR
 
         Link itemsLink = linkTo(methodOn(FormDefinitionController.class)
             .getFormDefinitionItems(formDefinition.formId()))
-            .withRel("form-items");
+            .withRel("form-definition-items");
         result.add(itemsLink);
 
         return result;

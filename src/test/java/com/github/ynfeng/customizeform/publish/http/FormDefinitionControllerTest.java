@@ -88,7 +88,7 @@ class FormDefinitionControllerTest {
             .andDo(print())
             .andExpect(status().is(200))
             .andExpect(jsonPath("$._links.self.href", is("http://localhost/v1/form-definitions/1")))
-            .andExpect(jsonPath("$._links.form-items.href", is("http://localhost/v1/form-definitions/1/form-definition-items")));
+            .andExpect(jsonPath("$._links.form-definition-items.href", is("http://localhost/v1/form-definitions/1/form-definition-items")));
     }
 
     @Test
