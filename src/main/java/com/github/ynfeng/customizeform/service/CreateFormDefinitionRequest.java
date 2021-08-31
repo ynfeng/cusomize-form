@@ -1,7 +1,9 @@
 package com.github.ynfeng.customizeform.service;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import java.util.List;
+import java.util.Map;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -18,5 +20,8 @@ public class CreateFormDefinitionRequest {
         private String name;
         private String screenName;
         private String type;
+
+        @Builder.Default
+        private Map<String, Object> params = Maps.newHashMap();
     }
 }

@@ -3,20 +3,23 @@ package com.github.ynfeng.customizeform.service;
 import com.github.ynfeng.customizeform.domain.Component;
 import com.github.ynfeng.customizeform.domain.FormDefinition;
 import com.github.ynfeng.customizeform.domain.business.BusinessComponentFactory;
+import com.github.ynfeng.customizeform.domain.datasource.DatasourceFactory;
 import com.github.ynfeng.customizeform.domain.repository.FormDefinitionRepository;
 import com.google.common.collect.Maps;
 import java.util.Map;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CreteFormDefinitionService {
+public class CreateFormDefinitionService {
+    private static final Map<String, Object> EMPTY_PARAMS = Maps.newHashMap();
     private final FormDefinitionRepository formDefinitionRepository;
     private final IDGenerator idGenerator;
-    private final BusinessComponentFactory componentFactory = new BusinessComponentFactory();
-    private static final Map<String, Object> EMPTY_PARAMS = Maps.newHashMap();
+    private final BusinessComponentFactory componentFactory;
 
-    public CreteFormDefinitionService(FormDefinitionRepository formDefinitionRepository,
-                                      IDGenerator idGenerator) {
+    public CreateFormDefinitionService(FormDefinitionRepository formDefinitionRepository,
+                                       DatasourceFactory datasourceFactory,
+                                       IDGenerator idGenerator) {
+        componentFactory = new BusinessComponentFactory(datasourceFactory);
         this.formDefinitionRepository = formDefinitionRepository;
         this.idGenerator = idGenerator;
     }
@@ -28,7 +31,7 @@ public class CreteFormDefinitionService {
             .build();
 
         request.getItems().forEach(formItem -> {
-            Component formComponent = componentFactory.create(formItem.getName(), formItem.getScreenName(), formItem.getType(), EMPTY_PARAMS);
+            Component formComponent = componentFactory.create(formItem.getName(), formItem.getScreenName(), formItem.getType(), formItem.getParams());
             formDefinition.addItem(formComponent);
         });
 

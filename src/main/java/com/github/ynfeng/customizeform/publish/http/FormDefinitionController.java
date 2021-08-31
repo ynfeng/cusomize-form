@@ -8,7 +8,7 @@ import com.github.ynfeng.customizeform.domain.Component;
 import com.github.ynfeng.customizeform.domain.FormDefinition;
 import com.github.ynfeng.customizeform.domain.repository.FormDefinitionRepository;
 import com.github.ynfeng.customizeform.service.CreateFormDefinitionRequest;
-import com.github.ynfeng.customizeform.service.CreteFormDefinitionService;
+import com.github.ynfeng.customizeform.service.CreateFormDefinitionService;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,10 +24,10 @@ import org.springframework.web.util.UriComponents;
 
 @RestController
 public class FormDefinitionController {
-    private final CreteFormDefinitionService formService;
+    private final CreateFormDefinitionService formService;
     private final FormDefinitionRepository fromRepository;
 
-    public FormDefinitionController(CreteFormDefinitionService formService, FormDefinitionRepository fromRepository) {
+    public FormDefinitionController(CreateFormDefinitionService formService, FormDefinitionRepository fromRepository) {
         this.formService = formService;
         this.fromRepository = fromRepository;
     }

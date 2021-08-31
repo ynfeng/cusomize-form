@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.github.ynfeng.customizeform.domain.FormDefinition;
 import com.github.ynfeng.customizeform.domain.business.DepartmentSelect;
+import com.github.ynfeng.customizeform.domain.datasource.DefaultDataSourceFactory;
 import com.github.ynfeng.customizeform.domain.repository.FormDefinitionRepository;
 import com.github.ynfeng.customizeform.domain.repository.impl.InMemoryFormDefinitionRepository;
 import com.google.common.collect.Lists;
@@ -14,11 +15,11 @@ import org.junit.jupiter.api.Test;
 class CustomizeFormDefinitionServiceTest {
     private final FormDefinitionRepository formDefinitionRepository = new InMemoryFormDefinitionRepository();
     private final IDGenerator idGenerator = new DefaultIDGenerator();
-    private CreteFormDefinitionService customizeFormService;
+    private CreateFormDefinitionService customizeFormService;
 
     @BeforeEach
     void setup() {
-        customizeFormService = new CreteFormDefinitionService(formDefinitionRepository, idGenerator);
+        customizeFormService = new CreateFormDefinitionService(formDefinitionRepository, new DefaultDataSourceFactory(), idGenerator);
     }
 
     @Test
