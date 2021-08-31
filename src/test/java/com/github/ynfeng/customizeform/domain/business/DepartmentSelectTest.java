@@ -1,9 +1,7 @@
-package com.github.ynfeng.customizeform.domain.select;
+package com.github.ynfeng.customizeform.domain.business;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.github.ynfeng.customizeform.domain.business.Department;
-import com.github.ynfeng.customizeform.domain.business.DepartmentSelect;
 import com.github.ynfeng.customizeform.domain.datasource.Data;
 import com.github.ynfeng.customizeform.domain.datasource.DataSourceStub;
 import com.github.ynfeng.customizeform.domain.datasource.DatasourceFactoryStub;

@@ -15,7 +15,7 @@ public class DepartmentSelect extends AbstractComponent {
 
     public DepartmentSelect(String name, String screenName, DatasourceFactory datasourceFactory, Map<String, Object> params) {
         super(name, screenName);
-        DataSource datasource = datasourceFactory.get(this, params);
+        DataSource datasource = datasourceFactory.get("ds_department");
         select = new SingleSelect(name, screenName, datasource);
     }
 

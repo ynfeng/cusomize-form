@@ -4,6 +4,7 @@ import com.github.ynfeng.customizeform.domain.Component;
 import com.github.ynfeng.customizeform.domain.datasource.DatasourceFactory;
 import com.github.ynfeng.customizeform.domain.datasource.DefaultDataSourceFactory;
 import com.github.ynfeng.customizeform.domain.text.SingleLineText;
+import com.google.common.collect.Maps;
 import java.util.Map;
 
 public class BusinessComponentFactory {
@@ -15,8 +16,16 @@ public class BusinessComponentFactory {
                 return new DepartmentSelect(name, screenName, datasourceFactory, params);
             case "SingleLineText":
                 return new SingleLineText(name, screenName);
+            case "AddressSelect":
+                return AddressSelect.with(name, screenName, datasourceFactory)
+                    .withProvince((String) params.get("provinceName"), (String) params.get("provinceScreenName"))
+                    .build();
             default:
                 return null;
         }
+    }
+
+    public Component create(String name, String screenName, String type) {
+        return create(name, screenName, type, Maps.newHashMap());
     }
 }

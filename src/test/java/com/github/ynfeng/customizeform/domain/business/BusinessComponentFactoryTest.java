@@ -26,4 +26,13 @@ class BusinessComponentFactoryTest {
 
         assertThat(component).isInstanceOf(SingleLineText.class);
     }
+
+    @Test
+    void should_create_address_select() {
+        BusinessComponentFactory factory = new BusinessComponentFactory();
+
+        Component component = factory.create("a name", "a screen name", "AddressSelect");
+
+        assertThat(component).isInstanceOf(AddressSelect.class);
+    }
 }
