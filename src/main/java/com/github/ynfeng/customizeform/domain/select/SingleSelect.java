@@ -16,7 +16,7 @@ public class SingleSelect<T> extends AbstractComponent {
     }
 
     public List<Option<T>> getOptions() {
-        Datas datas = dataSource.getDatas();
+        Datas datas = dataSource.getData();
 
         List<Option<T>> result = Lists.newArrayList();
 

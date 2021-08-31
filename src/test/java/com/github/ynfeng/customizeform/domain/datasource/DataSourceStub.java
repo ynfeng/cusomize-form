@@ -7,7 +7,7 @@ public class DataSourceStub implements DataSource {
     private List<Data> dataList = Lists.newArrayList();
 
     @Override
-    public Datas getDatas() {
+    public Datas getData() {
         Datas datas = new Datas();
 
         dataList.stream().forEach(datas::appendData);
