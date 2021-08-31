@@ -6,14 +6,14 @@ import lombok.ToString;
 
 @Getter
 @EqualsAndHashCode(of = "code")
-@ToString(of = {"provinceCode", "name", "code"})
-public class City {
-    private final String provinceCode;
+@ToString(of = {"cityCode", "name", "code"})
+public class Area {
+    private final String cityCode;
     private final String name;
     private final String code;
 
-    public City(String provinceCode, String name, String code) {
-        this.provinceCode = provinceCode;
+    public Area(String cityCode, String name, String code) {
+        this.cityCode = cityCode;
         this.name = name;
         this.code = code;
     }

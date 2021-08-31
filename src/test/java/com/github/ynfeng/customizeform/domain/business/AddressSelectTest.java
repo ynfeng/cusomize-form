@@ -36,7 +36,7 @@ class AddressSelectTest {
         DatasourceFactoryStub datasourceFactory = new DatasourceFactoryStub();
         DataSourceStub dataSourceStub = new DataSourceStub();
 
-        dataSourceStub.addData(Data.of("BJC", new City(new Province("北京", "BJ"), "市辖区", "BJC")));
+        dataSourceStub.addData(Data.of("BJC", new City("BJ", "市辖区", "BJC")));
         datasourceFactory.setDataSource(dataSourceStub);
 
         AddressSelect addressSelect = AddressSelect
@@ -48,6 +48,30 @@ class AddressSelectTest {
         List<City> cityList = addressSelect.getCityList("BJ");
 
         assertThat(cityList)
-            .containsExactly(new City(new Province("北京", "BJ"), "市辖区", "BJC"));
+            .containsExactly(new City("BJ", "市辖区", "BJC"));
+    }
+
+    @Test
+    void should_get_area() {
+        DatasourceFactoryStub datasourceFactory = new DatasourceFactoryStub();
+        DataSourceStub dataSourceStub = new DataSourceStub();
+
+        dataSourceStub.addData(Data.of("HD", new Area("BJC", "海淀区", "HD")));
+        dataSourceStub.addData(Data.of("CY", new Area("BJC", "朝阳区", "CY")));
+        datasourceFactory.setDataSource(dataSourceStub);
+
+        AddressSelect addressSelect = AddressSelect
+            .with("address", "select an address", datasourceFactory)
+            .withProvince("province", "select a province")
+            .withCity("city", "select an city")
+            .withArea("area", "select an area")
+            .build();
+
+        List<Area> areaList = addressSelect.getAreaList("BJ");
+
+        assertThat(areaList)
+            .containsExactly(
+                new Area("BJC", "海淀区", "HD"),
+                new Area("BJC", "朝阳区", "CY"));
     }
 }

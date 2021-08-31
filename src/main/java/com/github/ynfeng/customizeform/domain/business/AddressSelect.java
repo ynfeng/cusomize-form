@@ -13,6 +13,7 @@ public class AddressSelect extends AbstractComponent {
     private final DatasourceFactory datasourceFactory;
     private SingleSelect<Province> provinceSingleSelect;
     private SingleSelect<City> citySingleSelect;
+    private SingleSelect<Area> areaSingleSelect;
 
     private AddressSelect(String name, String screenName, DatasourceFactory datasourceFactory) {
         super(name, screenName);
@@ -25,6 +26,10 @@ public class AddressSelect extends AbstractComponent {
 
     private void city(String name, String screenName) {
         citySingleSelect = new SingleSelect<>(name, screenName, datasourceFactory.get("ds_city"));
+    }
+
+    private void area(String name, String screenName) {
+        areaSingleSelect = new SingleSelect<>(name, screenName, datasourceFactory.get("ds_area"));
     }
 
     public List<Province> getProvinceList() {
@@ -47,6 +52,15 @@ public class AddressSelect extends AbstractComponent {
         return new AddressSelectBuilder(name, screenName, datasourceFactory);
     }
 
+    public List<Area> getAreaList(String cityCode) {
+        Map<String, Object> params = ImmutableMap.of("cityCode", cityCode);
+
+        return areaSingleSelect.getOptions(params)
+            .stream()
+            .map(Option::getData)
+            .collect(Collectors.toList());
+    }
+
     public static class AddressSelectBuilder {
         private final AddressSelect addressSelect;
 
@@ -65,6 +79,11 @@ public class AddressSelect extends AbstractComponent {
 
         public AddressSelectBuilder withCity(String name, String screenName) {
             addressSelect.city(name, screenName);
+            return this;
+        }
+
+        public AddressSelectBuilder withArea(String name, String screenName) {
+            addressSelect.area(name, screenName);
             return this;
         }
     }
