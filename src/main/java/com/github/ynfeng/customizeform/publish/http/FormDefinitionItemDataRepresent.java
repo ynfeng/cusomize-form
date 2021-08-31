@@ -1,6 +1,8 @@
 package com.github.ynfeng.customizeform.publish.http;
 
 import com.github.ynfeng.customizeform.domain.Component;
+import com.github.ynfeng.customizeform.publish.http.extractor.FormDefinitionItemDataExtractor;
+import com.github.ynfeng.customizeform.publish.http.extractor.FormDefinitionItemDataExtractorFactory;
 import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Map;

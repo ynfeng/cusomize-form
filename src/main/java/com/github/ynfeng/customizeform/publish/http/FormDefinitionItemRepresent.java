@@ -4,6 +4,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import com.github.ynfeng.customizeform.domain.FormDefinition;
+import com.github.ynfeng.customizeform.publish.http.datalinker.DataLinker;
+import com.github.ynfeng.customizeform.publish.http.datalinker.DataLinkerFactory;
 import com.google.common.collect.Lists;
 import java.util.List;
 import lombok.Getter;
@@ -33,10 +35,8 @@ public class FormDefinitionItemRepresent extends RepresentationModel<FormDefinit
                 .withSelfRel();
             formItemRepresent.add(selfLink);
 
-            Link dataLink = linkTo(methodOn(FormDefinitionController.class)
-                .getFormDefinitionItemData(formDefinition.formId(), formItem.name()))
-                .withRel("data");
-            formItemRepresent.add(dataLink);
+            DataLinker dataLinker = new DataLinkerFactory().get(formItem.getClass());
+            dataLinker.makeLinks(formDefinition.formId(), formItem, formItemRepresent);
 
             result.add(formItemRepresent);
         });

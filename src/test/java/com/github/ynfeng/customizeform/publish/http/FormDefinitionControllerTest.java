@@ -117,7 +117,7 @@ class FormDefinitionControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
             .andDo(print())
             .andExpect(jsonPath("$._links.self.href", is("http://localhost/v1/form-definitions/1/form-definition-items")))
-            .andExpect(jsonPath("$._embedded.form-definition-items[0]._links.data.href", is("http://localhost/v1/form-definitions/1/form-definition-items/dept/data")))
+            .andExpect(jsonPath("$._embedded.form-definition-items[0]._links.data.href", is("http://localhost/v1/form-definitions/1/form-definition-items/dept/data?q=")))
             .andExpect(jsonPath("$._embedded.form-definition-items[0].name", is("dept")))
             .andExpect(jsonPath("$._embedded.form-definition-items[0].screenName", is("department")))
             .andExpect(jsonPath("$._embedded.form-definition-items[0].type", is("DepartmentSelect")))
@@ -163,7 +163,7 @@ class FormDefinitionControllerTest {
             .andDo(print())
             .andExpect(status().is(200))
             .andExpect(jsonPath("$.data.length()", is(2)))
-            .andExpect(jsonPath("$._links.self.href", is("http://localhost/v1/form-definitions/1/form-definition-items/dept/data")))
+            .andExpect(jsonPath("$._links.self.href", is("http://localhost/v1/form-definitions/1/form-definition-items/dept/data?q=")))
             .andExpect(jsonPath("$._links.form-definition.href", is("http://localhost/v1/form-definitions/1")));
     }
 
