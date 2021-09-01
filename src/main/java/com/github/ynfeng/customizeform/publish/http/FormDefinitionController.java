@@ -99,7 +99,7 @@ public class FormDefinitionController {
         }
 
         Component formItem = formItemCandidate.get();
-        FormDefinitionItemDataRepresent result = FormDefinitionItemDataRepresent.fromDomain(formId, formItem);
+        FormDefinitionItemDataRepresent result = FormDefinitionItemDataRepresent.fromDomain(formId, formItem, params);
 
         return ResponseEntity.ok(result);
     }

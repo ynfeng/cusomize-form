@@ -1,6 +1,7 @@
 package com.github.ynfeng.customizeform.publish.http.extractor;
 
 import com.github.ynfeng.customizeform.domain.Component;
+import com.github.ynfeng.customizeform.domain.business.AddressSelect;
 import com.github.ynfeng.customizeform.domain.business.DepartmentSelect;
 
 public class FormDefinitionItemDataExtractorFactory {
@@ -10,9 +11,9 @@ public class FormDefinitionItemDataExtractorFactory {
             return new DepartmentSelectDataExtractor();
         }
 
-//        if (formItem instanceof AddressSelect) {
-//            return new AddressSelectDataExtractor();
-//        }
+        if (formItem instanceof AddressSelect) {
+            return new AddressSelectDataExtractor();
+        }
 
         return new DefaultDataExtractor();
     }

@@ -13,13 +13,13 @@ import org.springframework.hateoas.RepresentationModel;
 public class FormDefinitionItemDataRepresent extends RepresentationModel<FormDefinitionItemDataRepresent> {
     private final List<Object> data = Lists.newArrayList();
 
-    public static FormDefinitionItemDataRepresent fromDomain(String formId, Component formItem) {
+    public static FormDefinitionItemDataRepresent fromDomain(String formId, Component formItem, Map<String, String> params) {
         FormDefinitionItemDataExtractorFactory extractorFactory = new FormDefinitionItemDataExtractorFactory();
         FormDefinitionItemDataExtractor extractor = extractorFactory.get(formItem);
-        return extractor.extract(formId, formItem);
+        return extractor.extract(formId, formItem, params);
     }
 
-    public void appendData(Map<String, String> data) {
+    public void appendData(Object data) {
         this.data.add(data);
     }
 }

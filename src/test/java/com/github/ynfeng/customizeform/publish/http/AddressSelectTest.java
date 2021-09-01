@@ -18,7 +18,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.ynfeng.customizeform.domain.FormDefinition;
 import com.github.ynfeng.customizeform.domain.business.AddressSelect;
+import com.github.ynfeng.customizeform.domain.business.Area;
+import com.github.ynfeng.customizeform.domain.business.City;
+import com.github.ynfeng.customizeform.domain.business.Province;
+import com.github.ynfeng.customizeform.domain.datasource.Data;
 import com.github.ynfeng.customizeform.domain.datasource.DataSource;
+import com.github.ynfeng.customizeform.domain.datasource.DataSourceStub;
 import com.github.ynfeng.customizeform.domain.datasource.Datas;
 import com.github.ynfeng.customizeform.domain.datasource.DatasourceFactory;
 import com.github.ynfeng.customizeform.domain.repository.FormDefinitionRepository;
@@ -141,6 +146,100 @@ public class AddressSelectTest {
             .andExpect(jsonPath("$._embedded['form-definition-items'][0]._links['city-data'].href",
                 is("http://localhost/v1/form-definitions/1/form-definition-items/address/data?type=city{&provinceCode}")))
             .andExpect(jsonPath("$._embedded['form-definition-items'][0]._links['area-data'].href",
-                is("http://localhost/v1/form-definitions/1/form-definition-items/address/data?type=area{&areaCode}")));
+                is("http://localhost/v1/form-definitions/1/form-definition-items/address/data?type=area{&cityCode}")));
+    }
+
+    @Test
+    void should_get_province_data() throws Exception {
+        DataSourceStub provinceDataSource = new DataSourceStub();
+        provinceDataSource.addData(Data.of("BJ", new Province("北京", "BJ")));
+        provinceDataSource.addData(Data.of("HB", new Province("河北", "HB")));
+        when(datasourceFactory.get("ds_province"))
+            .thenReturn(provinceDataSource);
+
+        FormDefinition formDefinition = FormDefinition
+            .withId("3")
+            .withName("a form")
+            .build();
+        AddressSelect addressSelect = AddressSelect
+            .with("address", "select address", datasourceFactory)
+            .withArea("area", "select a area")
+            .withProvince("province", "select a province")
+            .withCity("city", "select a city")
+            .build();
+        formDefinition.addItem(addressSelect);
+        formDefinition = formDefinitionRepository.save(formDefinition);
+
+        mockMvc.perform(get("/v1/form-definitions/" + formDefinition.formId() + "/form-definition-items/address/data?type=province")
+                .contentType(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().is(200))
+            .andExpect(jsonPath("$.data.length()", is(2)))
+            .andExpect(jsonPath("$.data[0].code", is("BJ")))
+            .andExpect(jsonPath("$.data[1].code", is("HB")))
+            .andExpect(jsonPath("$._links.self.href", is("http://localhost/v1/form-definitions/3/form-definition-items/address/data?type=province")))
+            .andExpect(jsonPath("$._links.form-definition.href", is("http://localhost/v1/form-definitions/3")));
+    }
+
+    @Test
+    void should_get_city_data() throws Exception {
+        DataSourceStub cityDataSource = new DataSourceStub();
+        cityDataSource.addData(Data.of("HB", new City("HB", "廊坊", "LF")));
+        when(datasourceFactory.get("ds_city"))
+            .thenReturn(cityDataSource);
+
+        FormDefinition formDefinition = FormDefinition
+            .withId("2")
+            .withName("a form")
+            .build();
+        AddressSelect addressSelect = AddressSelect
+            .with("address", "select address", datasourceFactory)
+            .withArea("area", "select a area")
+            .withProvince("province", "select a province")
+            .withCity("city", "select a city")
+            .build();
+        formDefinition.addItem(addressSelect);
+        formDefinition = formDefinitionRepository.save(formDefinition);
+
+        mockMvc.perform(get("/v1/form-definitions/" + formDefinition.formId() + "/form-definition-items/address/data?type=city&provinceCode=HB")
+                .contentType(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().is(200))
+            .andExpect(jsonPath("$.data.length()", is(1)))
+            .andExpect(jsonPath("$.data[0].code", is("LF")))
+            .andExpect(jsonPath("$.data[0].provinceCode", is("HB")))
+            .andExpect(jsonPath("$._links.self.href", is("http://localhost/v1/form-definitions/2/form-definition-items/address/data?provinceCode=HB&type=city")))
+            .andExpect(jsonPath("$._links.form-definition.href", is("http://localhost/v1/form-definitions/2")));
+    }
+
+    @Test
+    void should_get_area_data() throws Exception {
+        DataSourceStub areaDataSource = new DataSourceStub();
+        areaDataSource.addData(Data.of("HB", new Area("LF", "文安县", "WA")));
+        when(datasourceFactory.get("ds_area"))
+            .thenReturn(areaDataSource);
+
+        FormDefinition formDefinition = FormDefinition
+            .withId("4")
+            .withName("a form")
+            .build();
+        AddressSelect addressSelect = AddressSelect
+            .with("address", "select address", datasourceFactory)
+            .withArea("area", "select a area")
+            .withProvince("province", "select a province")
+            .withCity("city", "select a city")
+            .build();
+        formDefinition.addItem(addressSelect);
+        formDefinition = formDefinitionRepository.save(formDefinition);
+
+        mockMvc.perform(get("/v1/form-definitions/" + formDefinition.formId() + "/form-definition-items/address/data?type=area&cityCode=LF")
+                .contentType(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().is(200))
+            .andExpect(jsonPath("$.data.length()", is(1)))
+            .andExpect(jsonPath("$.data[0].code", is("WA")))
+            .andExpect(jsonPath("$.data[0].cityCode", is("LF")))
+            .andExpect(jsonPath("$._links.self.href", is("http://localhost/v1/form-definitions/4/form-definition-items/address/data?cityCode=LF&type=area")))
+            .andExpect(jsonPath("$._links.form-definition.href", is("http://localhost/v1/form-definitions/4")));
     }
 }
