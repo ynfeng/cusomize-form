@@ -13,7 +13,7 @@ public class DefaultDataLinker implements DataLinker {
     @Override
     public void makeLinks(String formId, Component formItem, FormDefinitionItemRepresent formItemRepresent) {
         Link dataLink = linkTo(methodOn(FormDefinitionController.class)
-            .getFormDefinitionItemData(formId, formItem.name(), ""))
+            .getFormDefinitionItemData(formId, formItem.name(), null))
             .withRel("data");
         formItemRepresent.add(dataLink);
     }

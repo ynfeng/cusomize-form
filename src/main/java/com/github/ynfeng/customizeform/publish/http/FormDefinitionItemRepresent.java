@@ -35,7 +35,7 @@ public class FormDefinitionItemRepresent extends RepresentationModel<FormDefinit
                 .withSelfRel();
             formItemRepresent.add(selfLink);
 
-            DataLinker dataLinker = new DataLinkerFactory().get(formItem.getClass());
+            DataLinker dataLinker = new DataLinkerFactory().get(formItem);
             dataLinker.makeLinks(formDefinition.formId(), formItem, formItemRepresent);
 
             result.add(formItemRepresent);

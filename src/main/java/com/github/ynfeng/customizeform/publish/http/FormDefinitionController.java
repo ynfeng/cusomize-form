@@ -10,6 +10,7 @@ import com.github.ynfeng.customizeform.domain.repository.FormDefinitionRepositor
 import com.github.ynfeng.customizeform.service.CreateFormDefinitionRequest;
 import com.github.ynfeng.customizeform.service.CreateFormDefinitionService;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.hateoas.CollectionModel;
@@ -85,7 +86,7 @@ public class FormDefinitionController {
     @GetMapping("/v1/form-definitions/{formId}/form-definition-items/{itemName}/data")
     public ResponseEntity<FormDefinitionItemDataRepresent> getFormDefinitionItemData(@PathVariable String formId,
                                                                                      @PathVariable String itemName,
-                                                                                     @RequestParam(value = "q",defaultValue = "") String q) {
+                                                                                     @RequestParam Map<String, String> params) {
         Optional<FormDefinition> formCandidate = fromRepository.find(formId);
         if (!formCandidate.isPresent()) {
             return ResponseEntity.notFound().build();

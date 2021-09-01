@@ -1,15 +1,18 @@
 package com.github.ynfeng.customizeform.publish.http;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -112,5 +115,32 @@ public class AddressSelectTest {
             ImmutableMap.<String, Object>builder()
                 .put("cityCode", "HD")
                 .build());
+    }
+
+    @Test
+    void should_contains_data_links() throws Exception {
+        FormDefinition formDefinition = FormDefinition
+            .withId("1")
+            .withName("a form")
+            .build();
+        AddressSelect addressSelect = AddressSelect
+            .with("address", "select address", datasourceFactory)
+            .withArea("area", "select a area")
+            .withProvince("province", "select a province")
+            .withCity("city", "select a city")
+            .build();
+        formDefinition.addItem(addressSelect);
+        formDefinitionRepository.save(formDefinition);
+
+        mockMvc.perform(get("/v1/form-definitions/1/form-definition-items")
+                .contentType(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$._embedded['form-definition-items'][0]._links['province-data'].href",
+                is("http://localhost/v1/form-definitions/1/form-definition-items/address/data?type=province")))
+            .andExpect(jsonPath("$._embedded['form-definition-items'][0]._links['city-data'].href",
+                is("http://localhost/v1/form-definitions/1/form-definition-items/address/data?type=city{&provinceCode}")))
+            .andExpect(jsonPath("$._embedded['form-definition-items'][0]._links['area-data'].href",
+                is("http://localhost/v1/form-definitions/1/form-definition-items/address/data?type=area{&areaCode}")));
     }
 }

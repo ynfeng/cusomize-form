@@ -15,7 +15,7 @@ public abstract class AbstractDataExtractor implements FormDefinitionItemDataExt
         FormDefinitionItemDataRepresent dataRepresent = new FormDefinitionItemDataRepresent();
 
         Link selfLink = WebMvcLinkBuilder.linkTo(methodOn(FormDefinitionController.class)
-                .getFormDefinitionItemData(formId, formItem.name(), ""))
+                .getFormDefinitionItemData(formId, formItem.name(), null))
             .withSelfRel();
         dataRepresent.add(selfLink);
 
