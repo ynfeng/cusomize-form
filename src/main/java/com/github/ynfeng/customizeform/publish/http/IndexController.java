@@ -13,11 +13,15 @@ public class IndexController {
 
     @GetMapping("/")
     public ResponseEntity<ApiRepresent> apis() {
-        Link formDefinitionsLink = linkTo(methodOn(FormDefinitionController.class).all())
-            .withRel("form-definitions");
+        Link formDefinitionListLink = linkTo(methodOn(FormDefinitionController.class).all())
+            .withRel("form-definition-list");
+
+        Link createFormDefinition = linkTo(methodOn(FormDefinitionController.class).createFormDefinition(null))
+            .withRel("form-definition-list");
 
         ApiRepresent apiRepresent = new ApiRepresent();
-        apiRepresent.add(formDefinitionsLink);
+        apiRepresent.add(formDefinitionListLink);
+        apiRepresent.add(createFormDefinition);
 
         return ResponseEntity.ok(apiRepresent);
     }
