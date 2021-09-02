@@ -142,11 +142,7 @@ public class AddressSelectTest {
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(jsonPath("$._embedded['form-definition-items'][0]._links['province-data'].href",
-                is("http://localhost/v1/form-definitions/1/form-definition-items/address/data?type=province")))
-            .andExpect(jsonPath("$._embedded['form-definition-items'][0]._links['city-data'].href",
-                is("http://localhost/v1/form-definitions/1/form-definition-items/address/data?type=city{&provinceCode}")))
-            .andExpect(jsonPath("$._embedded['form-definition-items'][0]._links['area-data'].href",
-                is("http://localhost/v1/form-definitions/1/form-definition-items/address/data?type=area{&cityCode}")));
+                is("http://localhost/v1/form-definitions/1/form-definition-items/address/data?type=province")));
     }
 
     @Test
@@ -174,10 +170,12 @@ public class AddressSelectTest {
                 .contentType(MediaType.APPLICATION_JSON))
             .andDo(print())
             .andExpect(status().is(200))
-            .andExpect(jsonPath("$.data.length()", is(2)))
-            .andExpect(jsonPath("$.data[0].code", is("BJ")))
-            .andExpect(jsonPath("$.data[1].code", is("HB")))
+            .andExpect(jsonPath("$.datasource._embedded.provinceList.length()", is(2)))
+            .andExpect(jsonPath("$.datasource._embedded.provinceList[0].code", is("BJ")))
+            .andExpect(jsonPath("$.datasource._embedded.provinceList[1].code", is("HB")))
             .andExpect(jsonPath("$._links.self.href", is("http://localhost/v1/form-definitions/3/form-definition-items/address/data?type=province")))
+            .andExpect(jsonPath("$.datasource._embedded.provinceList[0]._links.city-data.href", is("http://localhost/v1/form-definitions/3/form-definition-items/address/data?provinceCode=BJ&type=city")))
+            .andExpect(jsonPath("$.datasource._embedded.provinceList[1]._links.city-data.href", is("http://localhost/v1/form-definitions/3/form-definition-items/address/data?provinceCode=HB&type=city")))
             .andExpect(jsonPath("$._links.form-definition.href", is("http://localhost/v1/form-definitions/3")));
     }
 
@@ -205,9 +203,10 @@ public class AddressSelectTest {
                 .contentType(MediaType.APPLICATION_JSON))
             .andDo(print())
             .andExpect(status().is(200))
-            .andExpect(jsonPath("$.data.length()", is(1)))
-            .andExpect(jsonPath("$.data[0].code", is("LF")))
-            .andExpect(jsonPath("$.data[0].provinceCode", is("HB")))
+            .andExpect(jsonPath("$.datasource._embedded.cityList.length()", is(1)))
+            .andExpect(jsonPath("$.datasource._embedded.cityList[0].code", is("LF")))
+            .andExpect(jsonPath("$.datasource._embedded.cityList[0]._links.area-data.href", is("http://localhost/v1/form-definitions/2/form-definition-items/address/data?cityCode=LF&type=area")))
+            .andExpect(jsonPath("$.datasource._embedded.cityList[0].provinceCode", is("HB")))
             .andExpect(jsonPath("$._links.self.href", is("http://localhost/v1/form-definitions/2/form-definition-items/address/data?provinceCode=HB&type=city")))
             .andExpect(jsonPath("$._links.form-definition.href", is("http://localhost/v1/form-definitions/2")));
     }
@@ -236,9 +235,9 @@ public class AddressSelectTest {
                 .contentType(MediaType.APPLICATION_JSON))
             .andDo(print())
             .andExpect(status().is(200))
-            .andExpect(jsonPath("$.data.length()", is(1)))
-            .andExpect(jsonPath("$.data[0].code", is("WA")))
-            .andExpect(jsonPath("$.data[0].cityCode", is("LF")))
+            .andExpect(jsonPath("$.datasource._embedded.areaList.length()", is(1)))
+            .andExpect(jsonPath("$.datasource._embedded.areaList[0].code", is("WA")))
+            .andExpect(jsonPath("$.datasource._embedded.areaList[0].cityCode", is("LF")))
             .andExpect(jsonPath("$._links.self.href", is("http://localhost/v1/form-definitions/4/form-definition-items/address/data?cityCode=LF&type=area")))
             .andExpect(jsonPath("$._links.form-definition.href", is("http://localhost/v1/form-definitions/4")));
     }

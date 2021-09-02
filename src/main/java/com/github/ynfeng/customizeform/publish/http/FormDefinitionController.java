@@ -84,9 +84,9 @@ public class FormDefinitionController {
 
 
     @GetMapping("/v1/form-definitions/{formId}/form-definition-items/{itemName}/data")
-    public ResponseEntity<FormDefinitionItemDataRepresent> getFormDefinitionItemData(@PathVariable String formId,
-                                                                                     @PathVariable String itemName,
-                                                                                     @RequestParam Map<String, String> params) {
+    public ResponseEntity<FormDefinitionItemDataSourceRepresent> getFormDefinitionItemData(@PathVariable String formId,
+                                                                                           @PathVariable String itemName,
+                                                                                           @RequestParam Map<String, String> params) {
         Optional<FormDefinition> formCandidate = fromRepository.find(formId);
         if (!formCandidate.isPresent()) {
             return ResponseEntity.notFound().build();
@@ -99,7 +99,7 @@ public class FormDefinitionController {
         }
 
         Component formItem = formItemCandidate.get();
-        FormDefinitionItemDataRepresent result = FormDefinitionItemDataRepresent.fromDomain(formId, formItem, params);
+        FormDefinitionItemDataSourceRepresent result = FormDefinitionItemDataSourceRepresent.fromDomain(formId, formItem, params);
 
         return ResponseEntity.ok(result);
     }

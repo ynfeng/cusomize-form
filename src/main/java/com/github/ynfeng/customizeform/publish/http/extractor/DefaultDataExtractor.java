@@ -4,14 +4,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import com.github.ynfeng.customizeform.domain.Component;
 import com.github.ynfeng.customizeform.publish.http.FormDefinitionController;
-import com.github.ynfeng.customizeform.publish.http.FormDefinitionItemDataRepresent;
+import com.github.ynfeng.customizeform.publish.http.FormDefinitionItemDataSourceRepresent;
 import java.util.Map;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 
 public class DefaultDataExtractor extends AbstractDataExtractor {
     @Override
-    public FormDefinitionItemDataRepresent extract(String formId, Component formItem, Map<String, String> params) {
+    public FormDefinitionItemDataSourceRepresent extract(String formId, Component formItem, Map<String, String> params) {
         Link selfLink = WebMvcLinkBuilder.linkTo(methodOn(FormDefinitionController.class)
                 .getFormDefinitionItemData(formId, formItem.name(), null))
             .withSelfRel();

@@ -162,7 +162,7 @@ class FormDefinitionControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
             .andDo(print())
             .andExpect(status().is(200))
-            .andExpect(jsonPath("$.data.length()", is(2)))
+            .andExpect(jsonPath("$.datasource._embedded.departmentList.length()", is(2)))
             .andExpect(jsonPath("$._links.self.href", is("http://localhost/v1/form-definitions/1/form-definition-items/dept/data")))
             .andExpect(jsonPath("$._links.form-definition.href", is("http://localhost/v1/form-definitions/1")));
     }

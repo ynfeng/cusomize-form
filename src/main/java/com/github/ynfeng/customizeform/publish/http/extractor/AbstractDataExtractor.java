@@ -4,13 +4,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import com.github.ynfeng.customizeform.publish.http.FormDefinitionController;
-import com.github.ynfeng.customizeform.publish.http.FormDefinitionItemDataRepresent;
+import com.github.ynfeng.customizeform.publish.http.FormDefinitionItemDataSourceRepresent;
 import org.springframework.hateoas.Link;
 
 public abstract class AbstractDataExtractor implements FormDefinitionItemDataExtractor {
 
-    protected FormDefinitionItemDataRepresent createDataRepresent(String formId, Link selfLink) {
-        FormDefinitionItemDataRepresent dataRepresent = new FormDefinitionItemDataRepresent();
+    protected FormDefinitionItemDataSourceRepresent createDataRepresent(String formId, Link selfLink) {
+        FormDefinitionItemDataSourceRepresent dataRepresent = new FormDefinitionItemDataSourceRepresent();
         dataRepresent.add(selfLink);
 
         Link formDefLink = linkTo(methodOn(FormDefinitionController.class)
