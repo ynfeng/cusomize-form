@@ -25,6 +25,6 @@ class IndexControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$._links.form-definitions.href", is("http://localhost/v1/form-definitions")));
+            .andExpect(jsonPath("$._links.form-definition-list.href", is("http://localhost/v1/form-definitions")));
     }
 }

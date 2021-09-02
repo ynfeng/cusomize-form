@@ -17,7 +17,7 @@ public class IndexController {
             .withRel("form-definition-list");
 
         Link createFormDefinition = linkTo(methodOn(FormDefinitionController.class).createFormDefinition(null))
-            .withRel("form-definition-list");
+            .withRel("form-definition-create");
 
         ApiRepresent apiRepresent = new ApiRepresent();
         apiRepresent.add(formDefinitionListLink);
