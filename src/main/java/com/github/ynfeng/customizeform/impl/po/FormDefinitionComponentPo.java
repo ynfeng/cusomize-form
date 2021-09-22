@@ -26,9 +26,15 @@ public class FormDefinitionComponentPo {
     @Column(name = "screen_name")
     private String screenName;
 
-    @Column(name = "data")
-    private String data;
+    @Column(name = "ds_name")
+    private String dsName = "";
+
+    @Column(name = "extra_data")
+    private String extraData = "";
 
     @Column(name = "create_time")
     private LocalDateTime createTime;
+
+    @Column(name = "component_type")
+    private String type;
 }

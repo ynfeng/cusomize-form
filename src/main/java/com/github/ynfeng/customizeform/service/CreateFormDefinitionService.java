@@ -1,8 +1,8 @@
 package com.github.ynfeng.customizeform.service;
 
 import com.github.ynfeng.customizeform.domain.Component;
+import com.github.ynfeng.customizeform.domain.ComponentFactory;
 import com.github.ynfeng.customizeform.domain.FormDefinition;
-import com.github.ynfeng.customizeform.domain.business.BusinessComponentFactory;
 import com.github.ynfeng.customizeform.domain.datasource.DatasourceFactory;
 import com.github.ynfeng.customizeform.domain.repository.FormDefinitionRepository;
 import org.springframework.stereotype.Service;
@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 public class CreateFormDefinitionService {
     private final FormDefinitionRepository formDefinitionRepository;
     private final IDGenerator idGenerator;
-    private final BusinessComponentFactory componentFactory;
+    private final ComponentFactory componentFactory;
 
     public CreateFormDefinitionService(FormDefinitionRepository formDefinitionRepository,
                                        DatasourceFactory datasourceFactory,
                                        IDGenerator idGenerator) {
-        componentFactory = new BusinessComponentFactory(datasourceFactory);
+        componentFactory = new ComponentFactory(datasourceFactory);
         this.formDefinitionRepository = formDefinitionRepository;
         this.idGenerator = idGenerator;
     }

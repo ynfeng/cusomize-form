@@ -5,6 +5,11 @@ import java.util.Map;
 
 public class AreaDataSource implements DataSource {
     @Override
+    public String name() {
+        return "ds_area";
+    }
+
+    @Override
     public Datas getData() {
         return new Datas();
     }

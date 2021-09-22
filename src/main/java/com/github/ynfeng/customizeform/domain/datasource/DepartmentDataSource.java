@@ -5,6 +5,11 @@ import java.util.Map;
 
 public class DepartmentDataSource implements DataSource {
     @Override
+    public String name() {
+        return "ds_department";
+    }
+
+    @Override
     public Datas getData() {
         Datas datas = new Datas();
         datas.appendData(Data.of("dev", new Department("dev", "研发")));

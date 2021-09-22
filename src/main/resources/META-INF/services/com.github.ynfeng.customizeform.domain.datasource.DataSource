@@ -1,0 +1,5 @@
+com.github.ynfeng.customizeform.domain.datasource.AreaDataSource
+com.github.ynfeng.customizeform.domain.datasource.CityDataSource
+com.github.ynfeng.customizeform.domain.datasource.DepartmentDataSource
+com.github.ynfeng.customizeform.domain.datasource.ProvinceDataSource
+com.github.ynfeng.customizeform.domain.datasource.PropertyDataSource

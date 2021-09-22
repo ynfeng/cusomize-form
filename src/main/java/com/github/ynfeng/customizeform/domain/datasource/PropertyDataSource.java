@@ -2,10 +2,11 @@ package com.github.ynfeng.customizeform.domain.datasource;
 
 import java.util.Map;
 
-public class DummyDataSource implements DataSource {
+public class PropertyDataSource implements DataSource {
+
     @Override
     public String name() {
-        return "ds_dummy";
+        return "ds_property";
     }
 
     @Override

@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.github.ynfeng.customizeform.domain.business.Department;
 import com.github.ynfeng.customizeform.domain.business.DepartmentSelect;
 import com.github.ynfeng.customizeform.domain.datasource.DatasourceFactory;
-import com.github.ynfeng.customizeform.domain.datasource.DefaultDataSourceFactory;
+import com.github.ynfeng.customizeform.domain.datasource.SPIDatasourceFactory;
 import com.google.common.collect.Maps;
 import java.util.Map;
 import java.util.Optional;
@@ -17,7 +17,7 @@ class CustomizeFormDefinitionTest {
     @Test
     void should_build_customize_form() {
         FormDefinition formDefinition = FormDefinition.withId("1").withName("表单").build();
-        DatasourceFactory factory = new DefaultDataSourceFactory();
+        DatasourceFactory factory = new SPIDatasourceFactory();
 
         DepartmentSelect department = new DepartmentSelect("dept", "部门", factory, EMPTY_PARAMS);
         formDefinition.addItem(department);

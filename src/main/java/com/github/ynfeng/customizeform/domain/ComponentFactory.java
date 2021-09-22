@@ -1,15 +1,18 @@
-package com.github.ynfeng.customizeform.domain.business;
+package com.github.ynfeng.customizeform.domain;
 
-import com.github.ynfeng.customizeform.domain.Component;
+import com.github.ynfeng.customizeform.domain.business.AddressSelect;
+import com.github.ynfeng.customizeform.domain.business.DepartmentSelect;
+import com.github.ynfeng.customizeform.domain.datasource.DataSource;
 import com.github.ynfeng.customizeform.domain.datasource.DatasourceFactory;
+import com.github.ynfeng.customizeform.domain.select.SingleSelect;
 import com.github.ynfeng.customizeform.domain.text.SingleLineText;
 import com.google.common.collect.Maps;
 import java.util.Map;
 
-public class BusinessComponentFactory {
+public class ComponentFactory {
     private final DatasourceFactory datasourceFactory;
 
-    public BusinessComponentFactory(DatasourceFactory datasourceFactory) {
+    public ComponentFactory(DatasourceFactory datasourceFactory) {
         this.datasourceFactory = datasourceFactory;
     }
 
@@ -19,6 +22,9 @@ public class BusinessComponentFactory {
                 return new DepartmentSelect(name, screenName, datasourceFactory, params);
             case "SingleLineText":
                 return new SingleLineText(name, screenName);
+            case "SingleSelect":
+                DataSource dataSource = datasourceFactory.get((String) params.get("dsName"));
+                return new SingleSelect(name, screenName, dataSource);
             case "AddressSelect":
                 return AddressSelect.with(name, screenName, datasourceFactory)
                     .withProvince((String) params.get("provinceName"), (String) params.get("provinceScreenName"))
@@ -26,7 +32,7 @@ public class BusinessComponentFactory {
                     .withArea((String) params.get("areaName"), (String) params.get("areaScreenName"))
                     .build();
             default:
-                return null;
+                throw new IllegalStateException(String.format("not supported component %s", type));
         }
     }
 

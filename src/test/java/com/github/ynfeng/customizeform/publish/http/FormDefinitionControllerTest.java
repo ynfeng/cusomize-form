@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.ynfeng.customizeform.domain.FormDefinition;
 import com.github.ynfeng.customizeform.domain.business.DepartmentSelect;
 import com.github.ynfeng.customizeform.domain.datasource.DatasourceFactory;
-import com.github.ynfeng.customizeform.domain.datasource.DefaultDataSourceFactory;
+import com.github.ynfeng.customizeform.domain.datasource.SPIDatasourceFactory;
 import com.github.ynfeng.customizeform.domain.repository.FormDefinitionRepository;
 import com.github.ynfeng.customizeform.service.CreateFormDefinitionRequest;
 import com.google.common.collect.Lists;
@@ -38,7 +38,7 @@ class FormDefinitionControllerTest {
     @MockBean
     private FormDefinitionRepository formDefinitionRepository;
 
-    private final DatasourceFactory datasourceFactory = new DefaultDataSourceFactory();
+    private final DatasourceFactory datasourceFactory = new SPIDatasourceFactory();
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 

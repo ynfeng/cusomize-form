@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.github.ynfeng.customizeform.domain.FormDefinition;
 import com.github.ynfeng.customizeform.domain.business.DepartmentSelect;
-import com.github.ynfeng.customizeform.domain.datasource.DefaultDataSourceFactory;
+import com.github.ynfeng.customizeform.domain.datasource.SPIDatasourceFactory;
 import com.github.ynfeng.customizeform.domain.repository.FormDefinitionRepository;
 import com.github.ynfeng.customizeform.impl.InMemoryFormDefinitionRepository;
 import com.google.common.collect.Lists;
@@ -19,7 +19,7 @@ class CustomizeFormDefinitionServiceTest {
 
     @BeforeEach
     void setup() {
-        customizeFormService = new CreateFormDefinitionService(formDefinitionRepository, new DefaultDataSourceFactory(), idGenerator);
+        customizeFormService = new CreateFormDefinitionService(formDefinitionRepository, new SPIDatasourceFactory(), idGenerator);
     }
 
     @Test

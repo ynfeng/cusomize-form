@@ -1,14 +1,12 @@
-package com.github.ynfeng.customizeform.domain.repository.impl;
+package com.github.ynfeng.customizeform.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.github.ynfeng.customizeform.domain.FormDefinition;
+import com.github.ynfeng.customizeform.domain.datasource.DatasourceFactory;
 import com.github.ynfeng.customizeform.domain.repository.FormDefinitionRepository;
-import com.github.ynfeng.customizeform.domain.text.SingleLineText;
-import com.github.ynfeng.customizeform.impl.DBComponents;
-import com.github.ynfeng.customizeform.impl.DBFormDefinitionRepository;
-import com.github.ynfeng.customizeform.impl.po.FormDefinitionComponentPo;
 import com.github.ynfeng.customizeform.impl.po.FormDefinitionPo;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
@@ -33,8 +31,8 @@ class DBFormDefinitionRepositoryTest {
     @TestConfiguration
     static class FormDefinitionRepositoryConfig {
         @Bean
-        FormDefinitionRepository formRepository(EntityManager entityManager) {
-            return new DBFormDefinitionRepository(entityManager);
+        FormDefinitionRepository formRepository(EntityManager entityManager, DatasourceFactory datasourceFactory) {
+            return new DBFormDefinitionRepository(entityManager, datasourceFactory);
         }
     }
 
@@ -58,30 +56,48 @@ class DBFormDefinitionRepositoryTest {
     }
 
     @Test
-    void should_save_single_line_text() {
-        FormDefinition formDefinition = FormDefinition
-            .withId("1")
-            .withName("自定义")
-            .build();
-        formDefinition.setComponents(new DBComponents(formDefinition, entityManager));
-        repository.save(formDefinition);
+    void should_find_all_form_definitions() {
+        FormDefinitionPo formDefinitionPo = new FormDefinitionPo();
+        formDefinitionPo.setFormId("1");
+        formDefinitionPo.setName("自定义1");
+        formDefinitionPo.setCreateTime(LocalDateTime.now());
+        formDefinitionPo.setUpdateTime(LocalDateTime.now());
+        entityManager.persist(formDefinitionPo);
 
-        formDefinition.addItem(new SingleLineText("single_line_text", "单行文本"));
+        formDefinitionPo = new FormDefinitionPo();
+        formDefinitionPo.setFormId("2");
+        formDefinitionPo.setName("自定义2");
+        formDefinitionPo.setCreateTime(LocalDateTime.now());
+        formDefinitionPo.setUpdateTime(LocalDateTime.now());
+        entityManager.persist(formDefinitionPo);
 
-        Optional<FormDefinitionComponentPo> componentPoCandidate = getComponentByFormId("1", "single_line_text");
-        assertThat(componentPoCandidate.isPresent()).isTrue();
+        List<FormDefinition> all = repository.all();
+        assertThat(all.size()).isEqualTo(2);
+
+        FormDefinition formDefinition = all.get(0);
+        assertThat(formDefinition.formId()).isEqualTo("1");
+        assertThat(formDefinition.name()).isEqualTo("自定义1");
+
+        formDefinition = all.get(1);
+        assertThat(formDefinition.formId()).isEqualTo("2");
+        assertThat(formDefinition.name()).isEqualTo("自定义2");
     }
 
-    Optional<FormDefinitionComponentPo> getComponentByFormId(String formId, String name) {
-        TypedQuery<FormDefinitionComponentPo> query = entityManager.createQuery("select c from FormDefinitionComponentPo as c where c.formId = :formId and c.name = :name", FormDefinitionComponentPo.class);
-        query.setParameter("formId", formId);
-        query.setParameter("name", name);
+    @Test
+    void should_find_by_form_id() {
+        FormDefinitionPo formDefinitionPo = new FormDefinitionPo();
+        formDefinitionPo.setFormId("1");
+        formDefinitionPo.setName("自定义1");
+        formDefinitionPo.setCreateTime(LocalDateTime.now());
+        formDefinitionPo.setUpdateTime(LocalDateTime.now());
+        entityManager.persist(formDefinitionPo);
 
-        List<FormDefinitionComponentPo> resultList = query.getResultList();
-        if (resultList.isEmpty()) {
-            Optional.empty();
-        }
-        return Optional.of(resultList.get(0));
+        Optional<FormDefinition> formDefinitionCandidate = repository.find("1");
+        assertThat(formDefinitionCandidate.isPresent()).isTrue();
+
+        FormDefinition formDefinition = formDefinitionCandidate.get();
+        assertThat(formDefinition.name()).isEqualTo("自定义1");
+        assertThat(formDefinition.formId()).isEqualTo("1");
     }
 
     Optional<FormDefinitionPo> getFormDefinitionPoByFormId(String formId) {

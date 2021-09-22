@@ -8,6 +8,11 @@ public class DataSourceStub implements DataSource {
     private List<Data> dataList = Lists.newArrayList();
 
     @Override
+    public String name() {
+        return "ds_stub";
+    }
+
+    @Override
     public Datas getData() {
         Datas datas = new Datas();
 

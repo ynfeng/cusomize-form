@@ -5,6 +5,11 @@ import java.util.Map;
 
 public class CityDataSource implements DataSource {
     @Override
+    public String name() {
+        return "ds_city";
+    }
+
+    @Override
     public Datas getData() {
         return new Datas();
     }

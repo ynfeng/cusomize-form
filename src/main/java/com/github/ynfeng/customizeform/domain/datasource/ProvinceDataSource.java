@@ -5,6 +5,11 @@ import java.util.Map;
 
 public class ProvinceDataSource implements DataSource {
     @Override
+    public String name() {
+        return "ds_province";
+    }
+
+    @Override
     public Datas getData() {
         Datas datas = new Datas();
         datas.appendData(Data.of("BJ", new Province("北京", "BJ")));

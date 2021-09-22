@@ -3,18 +3,19 @@ package com.github.ynfeng.customizeform.domain.business;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.github.ynfeng.customizeform.domain.Component;
-import com.github.ynfeng.customizeform.domain.datasource.DefaultDataSourceFactory;
+import com.github.ynfeng.customizeform.domain.ComponentFactory;
+import com.github.ynfeng.customizeform.domain.datasource.SPIDatasourceFactory;
 import com.github.ynfeng.customizeform.domain.text.SingleLineText;
 import com.google.common.collect.Maps;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class BusinessComponentFactoryTest {
-    private BusinessComponentFactory factory;
+    private ComponentFactory factory;
 
     @BeforeEach
     void setup() {
-        factory = new BusinessComponentFactory(new DefaultDataSourceFactory());
+        factory = new ComponentFactory(new SPIDatasourceFactory());
     }
 
     @Test

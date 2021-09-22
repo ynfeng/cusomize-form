@@ -1,7 +1,7 @@
 package com.github.ynfeng.customizeform.config;
 
 import com.github.ynfeng.customizeform.domain.datasource.DatasourceFactory;
-import com.github.ynfeng.customizeform.domain.datasource.DefaultDataSourceFactory;
+import com.github.ynfeng.customizeform.domain.datasource.SPIDatasourceFactory;
 import com.github.ynfeng.customizeform.domain.repository.FormDefinitionRepository;
 import com.github.ynfeng.customizeform.impl.InMemoryFormDefinitionRepository;
 import com.github.ynfeng.customizeform.service.DefaultIDGenerator;
@@ -24,6 +24,6 @@ public class ApplicationConfig {
 
     @Bean
     DatasourceFactory datasourceFactory() {
-        return new DefaultDataSourceFactory();
+        return new SPIDatasourceFactory();
     }
 }
