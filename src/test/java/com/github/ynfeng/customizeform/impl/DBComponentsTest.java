@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.github.ynfeng.customizeform.domain.Component;
 import com.github.ynfeng.customizeform.domain.FormDefinition;
+import com.github.ynfeng.customizeform.domain.business.Department;
 import com.github.ynfeng.customizeform.domain.business.DepartmentSelect;
 import com.github.ynfeng.customizeform.domain.datasource.DatasourceFactory;
 import com.github.ynfeng.customizeform.domain.datasource.DummyDataSource;
@@ -102,13 +103,13 @@ class DBComponentsTest {
         assertThat(singleSelect.name()).isEqualTo("single_select");
         assertThat(singleSelect.screenName()).isEqualTo("单选");
 
-        DepartmentSelect departmentSelect = (DepartmentSelect) allItems.get(1);
-        assertThat(departmentSelect.name()).isEqualTo("single_line_text");
-        assertThat(departmentSelect.screenName()).isEqualTo("单行文本");
-
         SingleLineText singleLineText = (SingleLineText) allItems.get(1);
-        assertThat(singleLineText.name()).isEqualTo("department_select");
-        assertThat(singleLineText.screenName()).isEqualTo("部门");
+        assertThat(singleLineText.name()).isEqualTo("single_line_text");
+        assertThat(singleLineText.screenName()).isEqualTo("单行文本");
+
+        DepartmentSelect departmentSelect = (DepartmentSelect) allItems.get(2);
+        assertThat(departmentSelect.name()).isEqualTo("department_select");
+        assertThat(departmentSelect.screenName()).isEqualTo("部门");
     }
 
     Optional<FormDefinitionComponentPo> getComponentByFormId(String formId, String name) {
