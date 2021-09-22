@@ -1,4 +1,4 @@
-package com.github.ynfeng.customizeform.domain.repository.impl;
+package com.github.ynfeng.customizeform.impl.po;
 
 import com.github.ynfeng.customizeform.domain.FormDefinition;
 import java.time.LocalDateTime;

@@ -1,14 +1,14 @@
 package com.github.ynfeng.customizeform.domain;
 
-import com.google.common.collect.Lists;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import lombok.Setter;
 
 public class FormDefinition {
-    private String formId;
+    private final String formId;
     private String name;
-    private final List<Component> components = Lists.newArrayList();
+    @Setter
+    private Components components = new DefaultComponents();
 
     private FormDefinition(String formId) {
         this.formId = formId;
@@ -19,9 +19,7 @@ public class FormDefinition {
     }
 
     public <T extends Component> Optional<T> getItem(String itemName) {
-        return (Optional<T>) components.stream()
-            .filter(it -> it.name().equals(itemName))
-            .findAny();
+        return components.getComponent(itemName);
     }
 
     public String formId() {
@@ -37,7 +35,7 @@ public class FormDefinition {
     }
 
     public List<Component> items() {
-        return Collections.unmodifiableList(components);
+        return components.all();
     }
 
     public static class FormBuilder {

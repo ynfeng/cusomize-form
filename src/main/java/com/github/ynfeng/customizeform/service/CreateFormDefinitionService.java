@@ -5,13 +5,10 @@ import com.github.ynfeng.customizeform.domain.FormDefinition;
 import com.github.ynfeng.customizeform.domain.business.BusinessComponentFactory;
 import com.github.ynfeng.customizeform.domain.datasource.DatasourceFactory;
 import com.github.ynfeng.customizeform.domain.repository.FormDefinitionRepository;
-import com.google.common.collect.Maps;
-import java.util.Map;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CreateFormDefinitionService {
-    private static final Map<String, Object> EMPTY_PARAMS = Maps.newHashMap();
     private final FormDefinitionRepository formDefinitionRepository;
     private final IDGenerator idGenerator;
     private final BusinessComponentFactory componentFactory;

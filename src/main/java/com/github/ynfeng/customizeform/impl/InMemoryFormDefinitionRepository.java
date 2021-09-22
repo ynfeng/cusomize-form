@@ -1,4 +1,4 @@
-package com.github.ynfeng.customizeform.domain.repository.impl;
+package com.github.ynfeng.customizeform.impl;
 
 import com.github.ynfeng.customizeform.domain.FormDefinition;
 import com.github.ynfeng.customizeform.domain.repository.FormDefinitionRepository;

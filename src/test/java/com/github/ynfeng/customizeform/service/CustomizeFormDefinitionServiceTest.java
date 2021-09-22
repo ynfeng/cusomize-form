@@ -6,7 +6,7 @@ import com.github.ynfeng.customizeform.domain.FormDefinition;
 import com.github.ynfeng.customizeform.domain.business.DepartmentSelect;
 import com.github.ynfeng.customizeform.domain.datasource.DefaultDataSourceFactory;
 import com.github.ynfeng.customizeform.domain.repository.FormDefinitionRepository;
-import com.github.ynfeng.customizeform.domain.repository.impl.InMemoryFormDefinitionRepository;
+import com.github.ynfeng.customizeform.impl.InMemoryFormDefinitionRepository;
 import com.google.common.collect.Lists;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
