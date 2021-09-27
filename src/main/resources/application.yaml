@@ -17,7 +17,7 @@ spring:
     baseline-version: 1
     encoding: UTF-8
     out-of-order: false
-    schemas: customize-form
+    schemas: spcjsh2oabytktw2
     validate-on-migrate: false
 
 server:
