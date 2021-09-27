@@ -4,23 +4,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.github.ynfeng.customizeform.domain.FormDefinition;
 import com.github.ynfeng.customizeform.domain.business.DepartmentSelect;
-import com.github.ynfeng.customizeform.domain.datasource.SPIDatasourceFactory;
 import com.github.ynfeng.customizeform.domain.repository.FormDefinitionRepository;
-import com.github.ynfeng.customizeform.impl.InMemoryFormDefinitionRepository;
 import com.google.common.collect.Lists;
 import java.util.Optional;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Transactional
 class CustomizeFormDefinitionServiceTest {
-    private final FormDefinitionRepository formDefinitionRepository = new InMemoryFormDefinitionRepository();
-    private final IDGenerator idGenerator = new DefaultIDGenerator();
+    @Autowired
     private CreateFormDefinitionService customizeFormService;
 
-    @BeforeEach
-    void setup() {
-        customizeFormService = new CreateFormDefinitionService(formDefinitionRepository, new SPIDatasourceFactory(), idGenerator);
-    }
+    @Autowired
+    private FormDefinitionRepository formDefinitionRepository;
 
     @Test
     void should_create_form() {

@@ -27,10 +27,12 @@ import com.github.ynfeng.customizeform.domain.datasource.DataSourceStub;
 import com.github.ynfeng.customizeform.domain.datasource.Datas;
 import com.github.ynfeng.customizeform.domain.datasource.DatasourceFactory;
 import com.github.ynfeng.customizeform.domain.repository.FormDefinitionRepository;
+import com.github.ynfeng.customizeform.impl.DBComponents;
 import com.github.ynfeng.customizeform.service.CreateFormDefinitionRequest;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import java.util.Optional;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -38,10 +40,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class AddressSelectTest {
+@Transactional
+class AddressSelectTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -51,6 +55,9 @@ public class AddressSelectTest {
 
     @MockBean
     private DatasourceFactory datasourceFactory;
+
+    @Autowired
+    private EntityManager entityManager;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -102,7 +109,7 @@ public class AddressSelectTest {
             .andExpect(status().is(201))
             .andExpect(header().string("Location", startsWith("http://localhost/v1/form-definition")));
 
-        FormDefinition formDefinition = formDefinitionRepository.find("1").get();
+        FormDefinition formDefinition = formDefinitionRepository.all().get(0);
         Optional<AddressSelect> addressSelectCandidate = formDefinition.getItem("address");
         assertThat(addressSelectCandidate.isPresent()).isTrue();
 
@@ -128,6 +135,7 @@ public class AddressSelectTest {
             .withId("1")
             .withName("a form")
             .build();
+        formDefinition.setComponents(new DBComponents(formDefinition, entityManager, datasourceFactory));
         AddressSelect addressSelect = AddressSelect
             .with("address", "select address", datasourceFactory)
             .withArea("area", "select a area")
@@ -157,6 +165,7 @@ public class AddressSelectTest {
             .withId("3")
             .withName("a form")
             .build();
+        formDefinition.setComponents(new DBComponents(formDefinition, entityManager, datasourceFactory));
         AddressSelect addressSelect = AddressSelect
             .with("address", "select address", datasourceFactory)
             .withArea("area", "select a area")
@@ -190,6 +199,8 @@ public class AddressSelectTest {
             .withId("2")
             .withName("a form")
             .build();
+        formDefinition.setComponents(new DBComponents(formDefinition, entityManager, datasourceFactory));
+
         AddressSelect addressSelect = AddressSelect
             .with("address", "select address", datasourceFactory)
             .withArea("area", "select a area")
@@ -222,6 +233,7 @@ public class AddressSelectTest {
             .withId("4")
             .withName("a form")
             .build();
+        formDefinition.setComponents(new DBComponents(formDefinition, entityManager, datasourceFactory));
         AddressSelect addressSelect = AddressSelect
             .with("address", "select address", datasourceFactory)
             .withArea("area", "select a area")

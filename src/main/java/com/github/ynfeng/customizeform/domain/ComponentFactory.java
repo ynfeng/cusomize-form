@@ -27,9 +27,9 @@ public class ComponentFactory {
                 return new SingleSelect(name, screenName, dataSource);
             case "AddressSelect":
                 return AddressSelect.with(name, screenName, datasourceFactory)
-                    .withProvince((String) params.get("provinceName"), (String) params.get("provinceScreenName"))
-                    .withCity((String) params.get("cityName"), (String) params.get("cityScreenName"))
-                    .withArea((String) params.get("areaName"), (String) params.get("areaScreenName"))
+                    .withProvince((String) params.get(AddressSelect.PROVINCE_NAME), (String) params.get(AddressSelect.PROVINCE_SCREEN_NAME))
+                    .withCity((String) params.get(AddressSelect.CITY_NAME), (String) params.get(AddressSelect.CITY_SCREEN_NAME))
+                    .withArea((String) params.get(AddressSelect.AREA_NAME), (String) params.get(AddressSelect.AREA_SCREEN_NAME))
                     .build();
             default:
                 throw new IllegalStateException(String.format("not supported component %s", type));

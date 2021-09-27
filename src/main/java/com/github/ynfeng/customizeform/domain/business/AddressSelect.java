@@ -10,6 +10,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class AddressSelect extends AbstractComponent {
+    public static final String PROVINCE_NAME = "provinceName";
+    public static final String PROVINCE_SCREEN_NAME = "provinceScreenName";
+    public static final String CITY_NAME = "cityName";
+    public static final String AREA_NAME = "areaName";
+    public static final String AREA_SCREEN_NAME = "areaScreenName";
+    public static final String CITY_SCREEN_NAME = "cityScreenName";
+
     private final DatasourceFactory datasourceFactory;
     private SingleSelect<Province> provinceSingleSelect;
     private SingleSelect<City> citySingleSelect;
@@ -59,6 +66,18 @@ public class AddressSelect extends AbstractComponent {
             .stream()
             .map(Option::getData)
             .collect(Collectors.toList());
+    }
+
+    public SingleSelect<Province> getProvinceSelect() {
+        return provinceSingleSelect;
+    }
+
+    public SingleSelect<City> getCitySelect() {
+        return citySingleSelect;
+    }
+
+    public SingleSelect<Area> getAreaSelect() {
+        return areaSingleSelect;
     }
 
     public static class AddressSelectBuilder {

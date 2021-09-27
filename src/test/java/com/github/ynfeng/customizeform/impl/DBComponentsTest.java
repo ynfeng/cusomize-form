@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.github.ynfeng.customizeform.domain.Component;
 import com.github.ynfeng.customizeform.domain.FormDefinition;
-import com.github.ynfeng.customizeform.domain.business.Department;
+import com.github.ynfeng.customizeform.domain.business.AddressSelect;
 import com.github.ynfeng.customizeform.domain.business.DepartmentSelect;
 import com.github.ynfeng.customizeform.domain.datasource.DatasourceFactory;
 import com.github.ynfeng.customizeform.domain.datasource.DummyDataSource;
@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -54,7 +53,8 @@ class DBComponentsTest {
         assertThat(po.getFormId()).isEqualTo("1");
         assertThat(po.getName()).isEqualTo("single_line_text");
         assertThat(po.getScreenName()).isEqualTo("单行文本");
-        assertThat(po.getExtraData()).isEqualTo("");
+        assertThat(po.getExtraData()).isEqualTo("{}");
+        assertThat(po.getDsName()).isEqualTo("");
         assertThat(po.getType()).isEqualTo("SingleLineText");
         assertThat(po.getCreateTime()).isNotNull();
     }
@@ -83,7 +83,6 @@ class DBComponentsTest {
     }
 
     @Test
-    @Disabled
     void should_get_all_form_definition_items() {
         FormDefinition formDefinition = FormDefinition
             .withId("1")
@@ -93,11 +92,17 @@ class DBComponentsTest {
         formDefinition.addItem(new SingleSelect<>("single_select", "单选", new PropertyDataSource()));
         formDefinition.addItem(new SingleLineText("single_line_text", "单行文本"));
         formDefinition.addItem(new DepartmentSelect("department_select", "部门", datasourceFactory));
+        formDefinition.addItem(AddressSelect
+            .with("address_select", "地址", datasourceFactory)
+            .withCity("city_select", "城市")
+            .withProvince("province_select", "省")
+            .withArea("area_select", "地区")
+            .build());
         repository.save(formDefinition);
 
         formDefinition = repository.find("1").get();
         List<Component> allItems = formDefinition.items();
-        assertThat(allItems.size()).isEqualTo(3);
+        assertThat(allItems.size()).isEqualTo(4);
 
         SingleSelect singleSelect = (SingleSelect) allItems.get(0);
         assertThat(singleSelect.name()).isEqualTo("single_select");
@@ -110,6 +115,25 @@ class DBComponentsTest {
         DepartmentSelect departmentSelect = (DepartmentSelect) allItems.get(2);
         assertThat(departmentSelect.name()).isEqualTo("department_select");
         assertThat(departmentSelect.screenName()).isEqualTo("部门");
+
+        AddressSelect addressSelect = (AddressSelect) allItems.get(3);
+        assertThat(addressSelect.name()).isEqualTo("address_select");
+        assertThat(addressSelect.screenName()).isEqualTo("地址");
+    }
+
+    @Test
+    void should_get_form_definition_item() {
+        FormDefinition formDefinition = FormDefinition
+            .withId("1")
+            .withName("自定义")
+            .build();
+        formDefinition.setComponents(new DBComponents(formDefinition, entityManager, datasourceFactory));
+        formDefinition.addItem(new SingleSelect<>("single_select", "单选", new PropertyDataSource()));
+        repository.save(formDefinition);
+
+        formDefinition = repository.find("1").get();
+        SingleSelect<String> singleSelect = (SingleSelect<String>) formDefinition.getItem("single_select").get();
+        assertThat(singleSelect).isNotNull();
     }
 
     Optional<FormDefinitionComponentPo> getComponentByFormId(String formId, String name) {
