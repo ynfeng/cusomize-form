@@ -4,7 +4,7 @@ spring:
   application:
     name: customize-form
   datasource:
-    url: jdbc:${JDBC_DATABASE_URL}
+    url: ${JDBC_DATABASE_URL}
     username: ${JDBC_DATABASE_USERNAME}
     password: ${JDBC_DATABASE_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
